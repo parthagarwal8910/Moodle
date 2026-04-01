@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 // The security filter
 const fileFilter = (req, file, cb) => {
   // 1. Define the allowed extensions (Regex)
-  const allowedFileTypes = /jpeg|jpg|png|pdf|doc|docx|ppt|pptx|zip|rar|7z/;
+  const allowedFileTypes = /jpeg|jpg|png|pdf|doc|docx|ppt|pptx|zip|csv|rar|7z/;
   
   // 2. Check the file extension
   const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());

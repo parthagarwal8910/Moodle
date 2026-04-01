@@ -18,6 +18,18 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    gradesPublished: {
+    type: Boolean,
+    default: false
+    },
+    weights: {
+    quiz1: { type: Number, default: 10 },
+    quiz2: { type: Number, default: 10 },
+    midsem: { type: Number, default: 30 },
+    endsem: { type: Number, default: 40 },
+    project: { type: Number, default: 5 },
+    misc: { type: Number, default: 5 }
+  },
     instructor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

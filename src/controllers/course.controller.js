@@ -1,10 +1,10 @@
 const Course = require("../models/course.model");
 const { success } = require("../utils/apiResponse");
 const courseService = require('../services/course.service');
-const Lesson = require("../models/lesson.model");           // <-- ADD THIS
-const Submission = require("../models/submission.model");   // <-- ADD THIS
-const fs = require("fs");                                   // <-- ADD THIS
-
+const Lesson = require("../models/lesson.model");           
+const Submission = require("../models/submission.model");   
+const fs = require("fs");                                   
+const Grade = require("../models/grade.model");
 // 1. Get All Courses
 exports.getCourses = async (req, res, next) => {
   try {
@@ -79,8 +79,17 @@ exports.enrollInCourse = async (req, res, next) => {
 
     course.students.push(req.user.id);
     await course.save();
-
-    return success(res, "Enrolled successfully", course);
+    await Grade.create({
+      course: course._id,
+      student: req.user.id,
+      auditLog: [
+        {
+          role: "system",
+          action: "Empty grade sheet automatically initialized upon course enrollment."
+        }
+      ]
+    });
+    return success(res, "Enrolled successfully and grade sheet created", course);
   } catch (error) {
     next(error);
   }

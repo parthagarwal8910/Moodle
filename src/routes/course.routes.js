@@ -6,6 +6,8 @@ const { protect, restrictTo } = require("../middleware/auth.middleware");
 const { searchStudents } = require("../controllers/search.controller");
 const lessonRouter = require("./lesson.routes");
 const submissionRouter = require("./submission.routes");
+const gradeRouter = require("./grade.routes");
+
 // Public
 router.get("/", getCourses);
 
@@ -31,5 +33,7 @@ router.use("/:courseId/lessons", lessonRouter);
 
 //submission by student
 router.use("/:courseId/submissions", submissionRouter);
+//Grades entry
+router.use("/:courseId/grades", gradeRouter);
 
 module.exports = router;
