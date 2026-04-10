@@ -63,39 +63,6 @@ export const assignmentsAPI = {
   }
 };
 
-export const placementAPI = {
-  getPlacementRole: async () => {
-    return api.get('/placement/me');
-  },
-  getPosts: async (query = "", tags = "", year = "") => {
-    return api.get(`/placement/posts?q=${encodeURIComponent(query)}&tags=${encodeURIComponent(tags)}&year=${encodeURIComponent(year)}`);
-  },
-  getBookmarkedPosts: async () => {
-    return api.get('/placement/posts/bookmarked');
-  },
-  getPostById: async (id) => {
-    return api.get(`/placement/posts/${id}`);
-  },
-  createPost: async (postData) => {
-    return api.post('/placement/posts', postData);
-  },
-  toggleUpvote: async (id) => {
-    return api.post(`/placement/posts/${id}/upvote`);
-  },
-  toggleBookmark: async (id) => {
-    return api.post(`/placement/posts/${id}/bookmark`);
-  },
-  getComments: async (postId) => {
-    return api.get(`/placement/posts/${postId}/comments`);
-  },
-  addComment: async (postId, content, parentComment = null) => {
-    return api.post(`/placement/posts/${postId}/comments`, { content, parentComment });
-  },
-  toggleCommentUpvote: async (commentId) => {
-    return api.put(`/placement/comments/${commentId}/upvote`);
-  }
-};
-
 export const userAPI = {
   getMe: async () => {
     return api.get('/users/me');
@@ -108,51 +75,6 @@ export const userAPI = {
   },
   getTranscript: async () => {
     return api.get('/users/me/transcript');
-  }
-};
-
-export const dsaAPI = {
-  getQuestions: async () => {
-    return api.get('/placement/dsa/questions');
-  },
-  addQuestion: async (questionData) => {
-    return api.post('/placement/dsa/questions', questionData);
-  },
-  toggleCompletion: async (questionId) => {
-    return api.post(`/placement/dsa/questions/${questionId}/toggle`);
-  }
-};
-
-export const developmentAPI = {
-  getQuestions: async () => {
-    return api.get('/placement/development/questions');
-  },
-  addQuestion: async (questionData) => {
-    return api.post('/placement/development/questions', questionData);
-  },
-  toggleCompletion: async (questionId) => {
-    return api.post(`/placement/development/questions/${questionId}/toggle`);
-  }
-};
-
-export const contestAPI = {
-  getContests: async () => {
-    return api.get('/placement/contests');
-  },
-  addContest: async (contestData) => {
-    return api.post('/placement/contests', contestData);
-  }
-};
-
-export const mockOaAPI = {
-  getOAs: async () => {
-    return api.get('/placement/mock-oa');
-  },
-  addOA: async (oaData) => {
-    return api.post('/placement/mock-oa', oaData);
-  },
-  uploadResults: async (id, studentsData) => {
-    return api.put(`/placement/mock-oa/${id}/results`, studentsData);
   }
 };
 

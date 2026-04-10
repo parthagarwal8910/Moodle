@@ -2,8 +2,6 @@ const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { sendOTPEmail } = require("../services/email.service");
-const { getPlacementRole } = require("../middleware/placement.middleware");
-
 // ── EMAIL REGEX ────────────────────────────────────────────────
 const emailRegex = /^[a-zA-Z]+_[0-9]{4}[a-zA-Z]{2}[0-9]{2,3}@iitp\.ac\.in$/;
 
@@ -47,8 +45,8 @@ exports.register = async (req, res) => {
       });
     }
 
-    // 3. Validate role — now includes alumni
-    const allowedRoles = ["student", "ta", "professor", "alumni"];
+    // 3. Validate role
+    const allowedRoles = ["student", "ta", "professor"];
     if (!allowedRoles.includes(role)) {
       return res.status(400).json({
         message: `Invalid role. Must be one of: ${allowedRoles.join(", ")}`
@@ -165,19 +163,12 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // ── JWT includes collegeId for placement middleware ─────────
+    // ── JWT includes collegeId ─────────
     const token = jwt.sign(
       { id: user._id, role: user.role, collegeId: user.collegeId, department: user.department },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
-
-    // ── Compute placement role (senior/student detection) ───────
-    // Alumni role is already in user.role
-    // For students — detect if they are senior from collegeId year
-    const placementRole = user.role === "alumni"
-      ? "alumni"
-      : getPlacementRole(user.collegeId);
 
     user.password = undefined;
 
@@ -185,8 +176,7 @@ exports.login = async (req, res) => {
       success: true,
       message: "Login successful",
       token,
-      user,
-      placementRole   // "student" | "senior" | "alumni"
+      user
     });
 
   } catch (error) {

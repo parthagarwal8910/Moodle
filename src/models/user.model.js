@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["student", "ta", "professor", "alumni"],
+      enum: ["student", "ta", "professor"],
       required: true
     },
     department: {
@@ -59,13 +59,7 @@ const userSchema = new mongoose.Schema(
       type: Date,          // OTP expires after 5 minutes
       default: null
     },
-    // ── ROADMAP PROGRESS ───────────────────────────────────────
-    completedRoadmapQuestions: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "RoadmapQuestion"
-      }
-    ]
+
   },
   { timestamps: true }
 );

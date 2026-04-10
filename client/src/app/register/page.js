@@ -9,7 +9,6 @@ const ROLES = [
   { label: "Student",   value: "student",   hint: "1st - 4th year" },
   { label: "TA",        value: "ta",         hint: "Teaching Assistant" },
   { label: "Professor", value: "professor",  hint: "Faculty" },
-  { label: "Alumni",    value: "alumni",     hint: "Graduated" },
 ];
 
 export default function RegisterPage() {
@@ -35,7 +34,7 @@ export default function RegisterPage() {
         formData.collegeId,
         formData.email,
         formData.password,
-        formData.role   // ← send role directly including "alumni"
+        formData.role
       );
 
       router.push(`/verify-otp?email=${encodeURIComponent(formData.email)}`);
@@ -93,12 +92,7 @@ export default function RegisterPage() {
               ))}
             </div>
 
-            {/* Alumni notice */}
-            {formData.role === "alumni" && (
-              <div className="mt-3 bg-amber-50 border border-amber-100 rounded-xl p-3 text-xs text-amber-700">
-                ⚠️ Use your <strong>original college ID</strong> (e.g. 2001AI54). You will get access to the Alumni Portal after login.
-              </div>
-            )}
+
           </div>
 
           <div>
@@ -120,7 +114,7 @@ export default function RegisterPage() {
               value={formData.collegeId}
               onChange={(e) => setFormData({ ...formData, collegeId: e.target.value })}
               className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500"
-              placeholder={formData.role === "alumni" ? "e.g. 2001AI54 (your original ID)" : "e.g. 2401AI54"}
+              placeholder="e.g. 2401AI54"
               required
             />
           </div>

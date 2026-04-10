@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Book, CheckSquare, LayoutDashboard, Users, UserCheck, Briefcase, Calendar, User as UserIcon } from "lucide-react";
+import { Book, CheckSquare, LayoutDashboard, Users, UserCheck, Calendar, User as UserIcon } from "lucide-react";
 
 export default function Sidebar({ role }) {
   const pathname = usePathname();
@@ -12,14 +12,12 @@ export default function Sidebar({ role }) {
     professor: [
       { name: "Dashboard", href: "/dashboard/professor", icon: LayoutDashboard },
       { name: "Class Schedule", href: "/dashboard/schedule", icon: Calendar },
-      { name: "Placements", href: "/dashboard/placements", icon: Briefcase },
       { name: "Profile", href: "/dashboard/profile", icon: UserIcon }
     ],
     student: [
       { name: "Dashboard", href: "/dashboard/student", icon: LayoutDashboard },
       { name: "My Courses", href: "/dashboard/student/courses", icon: Book },
       { name: "Class Schedule", href: "/dashboard/schedule", icon: Calendar },
-      { name: "Placements", href: "/dashboard/placements", icon: Briefcase },
       { name: "Profile", href: "/dashboard/profile", icon: UserIcon }
     ],
     ta: [
@@ -27,7 +25,6 @@ export default function Sidebar({ role }) {
       { name: "Courses", href: "/dashboard/ta/courses", icon: Book },
       { name: "Submissions", href: "/dashboard/ta/submissions", icon: CheckSquare },
       { name: "Class Schedule", href: "/dashboard/schedule", icon: Calendar },
-      { name: "Placements", href: "/dashboard/placements", icon: Briefcase },
       { name: "Profile", href: "/dashboard/profile", icon: UserIcon }
     ],
   };
