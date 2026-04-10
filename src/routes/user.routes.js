@@ -18,7 +18,7 @@ router.put("/me/password", protect, updatePassword);
 router.get("/me/transcript", protect, getTranscript);
 
 // Admin / Prof / TA routes
-router.get("/", protect, restrictTo("professor", "ta"), getAllUsers);
+router.get("/", protect, restrictTo("professor", "ta", "admin"), getAllUsers);
 router.delete("/:id", protect, restrictTo("admin", "professor"), deleteUser);
 
 module.exports = router;

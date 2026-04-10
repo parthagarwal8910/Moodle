@@ -21,17 +21,27 @@ exports.getCourses = async (req, res, next) => {
 // 2. Create Course (Prof Only)
 exports.createCourse = async (req, res, next) => {
   try {
-    const { courseId, title, description } = req.body;
+    const { courseId, title, description, instructor, department, semester } = req.body;
 
-    if (!courseId || !title || !description) {
-      return res.status(400).json({ message: "courseId, title and description are required" });
+    if (!courseId || !title || !description || !department || !semester) {
+      return res.status(400).json({ message: "courseId, title, department, semester and description are required" });
+    }
+
+    let assignedInstructor = req.user.id;
+    if (req.user.role === 'admin') {
+      if (!instructor) {
+         return res.status(400).json({ message: "Admin must assign an instructor to the course" });
+      }
+      assignedInstructor = instructor;
     }
 
     const course = await Course.create({
       courseId,
       title,
       description,
-      instructor: req.user.id
+      department,
+      semester,
+      instructor: assignedInstructor
     });
 
     return success(res, "Course created successfully", course);
@@ -71,7 +81,7 @@ exports.enrollInCourse = async (req, res, next) => {
     const User = require("../models/user.model");
     const fullUser = await User.findById(req.user.id);
 
-    if (!fullUser || fullUser.department !== course.department) {
+    if (!fullUser || (fullUser.department !== course.department && course.department !== 'All')) {
       return res.status(403).json({
         message: `Forbidden: You belong to the ${fullUser?.department || 'Unknown'} department and cannot enroll in a ${course.department} course.`
       });
@@ -115,10 +125,10 @@ exports.updateCourse = async (req, res, next) => {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    // Authorization logic (Unchanged)
-    if (course.instructor.toString() !== req.user.id) {
+    // Authorization logic
+    if (course.instructor.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({
-        message: "Forbidden: You can only update courses that you created"
+        message: "Forbidden: You do not have permission to update this course"
       });
     }
 
@@ -148,9 +158,9 @@ exports.deleteCourse = async (req, res, next) => {
     }
 
     // 2. Authorization logic
-    if (course.instructor.toString() !== req.user.id) {
+    if (course.instructor.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({
-        message: "Forbidden: You can only delete courses that you created"
+        message: "Forbidden: You do not have permission to delete this course"
       });
     }
 
@@ -196,7 +206,11 @@ exports.deleteCourse = async (req, res, next) => {
 exports.getMyCourses = async (req, res, next) => {
   try {
     let courses;
-    if (req.user.role === 'professor') {
+    if (req.user.role === 'admin') {
+      courses = await Course.find()
+        .populate("instructor", "name email")
+        .sort({ createdAt: -1 });
+    } else if (req.user.role === 'professor') {
       courses = await Course.find({ instructor: req.user.id })
         .populate("students", "name email")
         .sort({ createdAt: -1 });

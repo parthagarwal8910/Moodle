@@ -27,6 +27,10 @@ export default function Sidebar({ role }) {
       { name: "Class Schedule", href: "/dashboard/schedule", icon: Calendar },
       { name: "Profile", href: "/dashboard/profile", icon: UserIcon }
     ],
+    admin: [
+      { name: "Dashboard", href: "/dashboard/admin", icon: LayoutDashboard },
+      { name: "Profile", href: "/dashboard/profile", icon: UserIcon }
+    ],
   };
 
   const currentLinks = links[role] || links["student"];

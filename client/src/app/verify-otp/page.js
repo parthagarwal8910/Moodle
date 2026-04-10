@@ -28,6 +28,7 @@ export default function VerifyOTPPage() {
     if (!email) {
       router.push("/register");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email]);
 
   const handleChange = (value, index) => {

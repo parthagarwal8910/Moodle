@@ -45,6 +45,9 @@ export const coursesAPI = {
   },
   enrollInCourse: async (id) => {
     return api.post(`/courses/${id}/enroll`);
+  },
+  deleteCourse: async (id) => {
+    return api.delete(`/courses/${id}`);
   }
 };
 
@@ -64,6 +67,9 @@ export const assignmentsAPI = {
 };
 
 export const userAPI = {
+  getAllUsers: async () => {
+    return api.get('/users');
+  },
   getMe: async () => {
     return api.get('/users/me');
   },

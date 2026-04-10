@@ -46,7 +46,7 @@ exports.register = async (req, res) => {
     }
 
     // 3. Validate role
-    const allowedRoles = ["student", "ta", "professor"];
+    const allowedRoles = ["student", "ta", "professor", "admin"];
     if (!allowedRoles.includes(role)) {
       return res.status(400).json({
         message: `Invalid role. Must be one of: ${allowedRoles.join(", ")}`

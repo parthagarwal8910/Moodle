@@ -15,10 +15,10 @@ router.get("/global/search", protect, globalSearch);
 router.get("/", getCourses);
 
 // Professor only
-router.post("/", protect, restrictTo("professor"), createCourse);
+router.post("/", protect, restrictTo("professor", "admin"), createCourse);
 router.get("/my", protect, getMyCourses);
-router.put("/:id", protect, restrictTo("professor"), updateCourse);
-router.delete("/:id", protect, restrictTo("professor"), deleteCourse);
+router.put("/:id", protect, restrictTo("professor", "admin"), updateCourse);
+router.delete("/:id", protect, restrictTo("professor", "admin"), deleteCourse);
 
 // Any logged-in user (student, ta, professor can all search)
 router.get("/:id/students/search", protect, searchStudents);

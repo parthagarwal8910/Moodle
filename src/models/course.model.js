@@ -18,6 +18,11 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    semester: {
+      type: String,
+      enum: ["Autumn", "Spring"],
+      required: true
+    },
     department: {
       type: String,
       required: true,
@@ -29,7 +34,8 @@ const courseSchema = new mongoose.Schema(
         "Mathematics and Computing",
         "AI",
         "Civil",
-        "Humanities"
+        "Humanities",
+        "All"
       ]
     },
     gradesPublished: {

@@ -9,6 +9,7 @@ const ROLES = [
   { label: "Student",   value: "student",   hint: "1st - 4th year" },
   { label: "TA",        value: "ta",         hint: "Teaching Assistant" },
   { label: "Professor", value: "professor",  hint: "Faculty" },
+  { label: "Admin",     value: "admin",      hint: "Administrator" },
 ];
 
 export default function RegisterPage() {
